@@ -1,102 +1,191 @@
-import Image, { type ImageProps } from "next/image";
-import { Button } from "@repo/ui/button";
-import styles from "./page.module.css";
+"use client";
 
-type Props = Omit<ImageProps, "src"> & {
-  srcLight: string;
-  srcDark: string;
-};
-
-const ThemeImage = (props: Props) => {
-  const { srcLight, srcDark, ...rest } = props;
-
-  return (
-    <>
-      <Image {...rest} src={srcLight} className="imgLight" />
-      <Image {...rest} src={srcDark} className="imgDark" />
-    </>
-  );
-};
+import { useState, useEffect } from "react";
+import { Button } from "@workspace/ui/components/button";
+import { ChartModule } from "./modules/chart-module";
+import { DialogDemo } from "./modules/dialog-module";
+import { SonnerTypes } from "./modules/toast-module";
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <ThemeImage
-          className={styles.logo}
-          srcLight="turborepo-dark.svg"
-          srcDark="turborepo-light.svg"
-          alt="Turborepo logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>apps/web/app/page.tsx</code>
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  // Theme state
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new/clone?demo-description=Learn+to+implement+a+monorepo+with+a+two+Next.js+sites+that+has+installed+three+local+packages.&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F4K8ZISWAzJ8X1504ca0zmC%2F0b21a1c6246add355e55816278ef54bc%2FBasic.png&demo-title=Monorepo+with+Turborepo&demo-url=https%3A%2F%2Fexamples-basic-web.vercel.sh%2F&from=templates&project-name=Monorepo+with+Turborepo&repository-name=monorepo-turborepo&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fturborepo%2Ftree%2Fmain%2Fexamples%2Fbasic&root-directory=apps%2Fdocs&skippable-integrations=1&teamSlug=vercel&utm_source=create-turbo"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://turborepo.com/docs?utm_source"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+  // Apply dark mode
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [isDarkMode]);
+
+  // Reset to default theme
+  const resetTheme = () => {
+    setIsDarkMode(false);
+  };
+  return (
+    <div className="min-h-screen p-8">
+      <div className="max-w-6xl mx-auto space-y-8">
+        <div className="text-center space-y-4">
+          <h1 className="text-4xl font-bold text-foreground">
+            UI Component Library
+          </h1>
+          <p className="text-muted-foreground">
+            A comprehensive component library built with Tailwind CSS, Radix UI,
+            and shadcn/ui
+          </p>
         </div>
-        <Button appName="web" className={styles.secondary}>
-          Open alert
-        </Button>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com/templates?search=turborepo&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://turborepo.com?utm_source=create-turbo"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to turborepo.com →
-        </a>
-      </footer>
+
+        {/* Theme Customization Controls */}
+        <section className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold">Theme Customization</h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                Toggle between light and dark mode
+              </p>
+              <p className="text-xs text-muted-foreground mt-2">
+                For advanced theme customization, use the{" "}
+                <a
+                  href="https://tweakcn.com/editor/theme"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  TweakCN Theme Editor
+                </a>{" "}
+                to generate custom CSS variables
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Button variant="outline" onClick={resetTheme}>
+                Reset to Default
+              </Button>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            {/* Dark Mode Toggle */}
+            <div className="flex items-center justify-between p-4 border border-border rounded-lg">
+              <div>
+                <label className="block text-sm font-medium text-foreground">
+                  Dark Mode
+                </label>
+                <p className="text-xs text-muted-foreground">
+                  Toggle between light and dark themes
+                </p>
+              </div>
+              <button
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  isDarkMode ? "bg-primary" : "bg-muted"
+                }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    isDarkMode ? "translate-x-6" : "translate-x-1"
+                  }`}
+                />
+              </button>
+            </div>
+
+            {/* TweakCN Reference */}
+            <div className="p-4 border border-border rounded-lg bg-muted/30">
+              <h3 className="text-sm font-semibold text-foreground mb-2">
+                Advanced Theme Customization
+              </h3>
+              <p className="text-xs text-muted-foreground mb-3">
+                For complete control over colors, typography, and spacing, use
+                the TweakCN Theme Editor to generate custom CSS variables.
+              </p>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() =>
+                    window.open("https://tweakcn.com/editor/theme", "_blank")
+                  }
+                >
+                  Open TweakCN Editor
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="space-y-6">
+          <h2 className="text-2xl font-bold">Chart Component</h2>
+          <ChartModule />
+        </section>
+        {/* Buttons Section */}
+        <section className="space-y-6">
+          <h2 className="text-2xl font-bold">Button Component</h2>
+
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <h3 className="text-lg font-semibold">Variants</h3>
+              <div className="flex flex-wrap gap-4">
+                <Button>Default</Button>
+                <Button variant="secondary">Secondary</Button>
+                <Button variant="destructive">Destructive</Button>
+                <Button variant="outline">Outline</Button>
+                <Button variant="ghost">Ghost</Button>
+                <Button variant="link">Link</Button>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <h3 className="text-lg font-semibold">Sizes</h3>
+              <div className="flex flex-wrap gap-4">
+                <Button size="sm">Small</Button>
+                <Button size="default">Default</Button>
+                <Button size="lg">Large</Button>
+                <Button size="icon">🚀</Button>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <h3 className="text-lg font-semibold">States</h3>
+              <div className="flex flex-wrap gap-4">
+                <Button>Normal</Button>
+                <Button disabled>Disabled</Button>
+                <Button asChild>
+                  <a href="#demo">As Link</a>
+                </Button>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <h3 className="text-lg font-semibold">Interactive Examples</h3>
+              <div className="flex flex-wrap gap-4">
+                <Button onClick={() => alert("Button clicked!")}>
+                  Click Me
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => console.log("Secondary clicked")}
+                >
+                  Console Log
+                </Button>
+                <Button
+                  variant="destructive"
+                  onClick={() => confirm("Are you sure?")}
+                >
+                  Confirm Action
+                </Button>
+                <DialogDemo />
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="text-lg font-semibold">Toast Component</h3>
+                <div className="flex flex-wrap gap-4">
+                  <SonnerTypes />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

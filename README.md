@@ -1,135 +1,255 @@
-# Turborepo starter
+# Stager UI Components
 
-This Turborepo starter is maintained by the Turborepo core team.
+A modern UI component library built with Tailwind CSS v4, Radix UI, and TypeScript. This monorepo provides a scalable design system with CSS variable theming, making it easy to maintain consistency across multiple products while allowing for brand customization.
 
-## Using this example
+## 🏗️ Architecture
 
-Run the following command:
+This is a Turborepo monorepo containing:
 
-```sh
-npx create-turbo@latest
+- **`packages/ui`** - Core component library (`@stager-org/ui`) with TypeScript source distribution
+- **`apps/web`** - Next.js demo application with interactive theme customization
+- **`apps/docs`** - Documentation site (Next.js)
+- **`packages/eslint-config`** - Shared ESLint configuration
+- **`packages/typescript-config`** - Shared TypeScript configuration
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+ 
+- npm 10.9.2+
+
+### Installation
+
+```bash
+# Install dependencies
+npm install
+
+# Start development servers
+npm run dev
 ```
 
-## What's inside?
+This will start:
+- Web demo at `http://localhost:3000` (with interactive theme customization)
+- Docs at `http://localhost:3001` (if running)
 
-This Turborepo includes the following packages/apps:
+## 📦 Package Structure
 
-### Apps and Packages
+### UI Package (`packages/ui`)
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+The core component library with:
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+- **Components**: Button (more coming soon)
+- **Theming**: CSS variables for colors, spacing, typography
+- **TypeScript**: Full type safety and IntelliSense
+- **Exports**: Tree-shakeable individual component imports
 
-### Utilities
+```tsx
+// Import components
+import { Button } from "@stager-org/ui";
 
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+// Import styles
+import "@stager-org/ui/globals.css";
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+### Demo Applications
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+#### Web App (`apps/web`)
+- Next.js 15 with App Router
+- Component showcase and examples
+- Interactive theme customization controls
+- Real-time theme preview
+- Tailwind CSS v4 integration
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+## 🎨 Theming System
 
-### Develop
+### CSS Variables
 
-To develop all apps and packages, run the following command:
+The library uses CSS variables for theming, making it easy to customize:
 
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+```css
+:root {
+  /* Colors */
+  --primary: 240 5.9% 10%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 240 4.8% 95.9%;
+  
+  /* Spacing */
+  --radius: 0.5rem;
+  
+  /* Typography */
+  --font-sans: "Geist Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+}
 ```
 
-### Remote Caching
+### Using the Package
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+For detailed installation instructions, see:
+- [Installation Guide](./packages/ui/INSTALLATION.md) - Complete setup for Next.js, Vite, CRA
+- [Theme Variables Reference](./packages/ui/THEME_VARIABLES.md) - All CSS variables explained
+- [UI Package README](./packages/ui/README.md) - Component documentation
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+### Quick Installation
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+```bash
+npm install @stager-org/ui
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+```tsx
+import { Button } from "@stager-org/ui";
+import "@stager-org/ui/globals.css";
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+function App() {
+  return <Button>Hello World</Button>;
+}
 ```
 
-## Useful Links
+### Custom Themes
 
-Learn more about the power of Turborepo:
+Create product-specific themes by overriding CSS variables:
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+```css
+:root {
+  --primary: oklch(0.4 0.2 200); /* Brand blue */
+  --secondary: oklch(0.9 0.1 200); /* Light blue */
+  --accent: oklch(0.8 0.15 200); /* Accent blue */
+  --radius: 0.5rem; /* Consistent border radius */
+}
+```
+
+## 🛠️ Development
+
+### Available Scripts
+
+```bash
+# Development
+npm run dev          # Start all dev servers
+npm run build        # Build all packages
+npm run lint         # Lint all packages
+npm run format       # Format code with Prettier
+npm run check-types  # Type check all packages
+
+# Package-specific
+npm run dev --filter=web        # Start only web app
+npm run build --filter=ui      # Build only UI package
+```
+
+### Adding New Components
+
+1. Create component in `packages/ui/src/components/`
+2. Export from `packages/ui/src/index.tsx`
+3. Add to demo apps for testing
+4. Update documentation
+
+### Framework Integration
+
+#### Next.js
+```javascript
+// next.config.js
+module.exports = {
+  transpilePackages: ["@stager-org/ui"],
+};
+```
+
+#### Vite
+```typescript
+// vite.config.ts
+export default defineConfig({
+  optimizeDeps: {
+    include: ['@stager-org/ui']
+  }
+})
+```
+
+#### Create React App
+Requires Tailwind CSS v3 configuration - see [Installation Guide](./packages/ui/INSTALLATION.md) for details.
+
+## 📚 Documentation
+
+### Component Library
+- [UI Package README](./packages/ui/README.md) - Detailed component documentation
+- [Installation Guide](./packages/ui/INSTALLATION.md) - Complete setup instructions
+- [Theme Variables Reference](./packages/ui/THEME_VARIABLES.md) - CSS variables documentation
+
+### Demo Applications
+- [Web Demo](./apps/web) - Next.js showcase with interactive theme customization
+
+## 🔧 Configuration
+
+### TypeScript
+Shared TypeScript configurations in `packages/typescript-config/`:
+- `base.json` - Base configuration
+- `react-library.json` - For React libraries
+- `nextjs.json` - For Next.js applications
+
+### ESLint
+Shared ESLint configurations in `packages/eslint-config/`:
+- `base.js` - Base rules
+- `next.js` - Next.js specific rules
+- `react-internal.js` - Internal React rules
+
+## 🚀 Deployment
+
+### Building for Production
+
+```bash
+# Build all packages
+npm run build
+
+# Build specific package
+npm run build --filter=ui
+```
+
+### Publishing
+
+The UI package is configured for publishing to npm:
+
+```bash
+# Publish UI package
+cd packages/ui
+npm publish
+```
+
+## 🎯 Roadmap
+
+### Phase 1 (Current)
+- ✅ Core component library (Button)
+- ✅ CSS variable theming with OKLCH colors
+- ✅ TypeScript source distribution
+- ✅ Next.js and Vite compatibility
+- ✅ Interactive theme customization
+- ✅ Comprehensive documentation
+
+### Phase 2 (Planned)
+- [ ] Additional components (Input, Card, Dialog, Dropdown, etc.)
+- [ ] Build step for external distribution
+- [ ] Storybook documentation
+- [ ] Unit and integration tests
+- [ ] Dark mode support
+- [ ] Animation utilities
+
+### Phase 3 (Future)
+- [ ] Design tokens system
+- [ ] Figma integration
+- [ ] Component analytics
+- [ ] A11y testing automation
+
+## 🤝 Contributing
+
+1. Make changes in the appropriate package
+2. Test changes in demo applications
+3. Update documentation
+4. Ensure all checks pass: `npm run lint && npm run check-types`
+
+## 📄 License
+
+This project is part of the stager Components Package and follows the organization's licensing terms.
+
+## 🆘 Support
+
+For questions or issues:
+1. Check the [Installation Guide](./packages/ui/INSTALLATION.md) for setup help
+2. Review the [Theme Variables Reference](./packages/ui/THEME_VARIABLES.md) for customization
+3. Visit the [demo application](http://localhost:3000) for interactive examples
+4. Open an issue for bugs or feature requests
